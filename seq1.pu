@@ -1,0 +1,28 @@
+@startuml
+title Loan Management Module
+
+actor Client
+entity "Banking App" as App
+database "Loan Management DB" as DB
+entity "Commercial Service" as CS
+entity "Risk Management Service" as RMS
+entity "Credit Service" as CrS
+database "Central Bank DB" as CBD
+database "DFS" as DFS
+
+Client -> App : Fills in application form and uploads documents
+App -> DB : Creates a request and updates database
+App -> DFS : Stores uploaded documents
+DB -> CS : Sends client's information
+CS -> CS : Checks eligibility and establishes initial scoring
+CS --> DB : Updates scoring in database
+DB -> RMS : Sends client's information and initial scoring
+RMS -> CBD : Checks for other outstanding commitments
+RMS -> RMS : Calculates final score
+RMS --> DB : Updates final score in database
+DB -> App : Sends updated scoring information
+App -> Client : Notifies about loan approval status
+Client -> CrS : Requests for credit agreement and amortization table
+CrS -> DFS : Stores credit agreement and amortization table
+DFS -> Client : Provides documents for viewing/downloading
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+title Loan Management Module
+
+start
+:Client fills in application form and uploads documents;
+:Banking App creates a request and updates Loan Management DB;
+:Banking App stores uploaded documents in DFS;
+:OCR Service extracts information from uploaded documents (dfs);
+:Commercial Service checks eligibility and establishes initial scoring using OCR data;
+:Risk Management Service calculates final score using OCR data and Central Bank API;
+if (Loan approved?) then (yes)
+  :Credit Service elaborates credit agreement and amortization table;
+  :Credit Service stores documents in DFS;
+  :Client views/downloads documents;
+  :Notification sent to Central Bank API about approved credit;
+else (no)
+  :Client is notified about loan rejection;
+endif
+stop
+@enduml
